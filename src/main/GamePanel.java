@@ -17,16 +17,18 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
     int FPS = 60;
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
     public Player player = new Player(this, keyH);
     TileManager tileM = new TileManager(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     public SuperObject[] obj = new SuperObject[10];
-    public AssetSetter aSetter = new AssetSetter(this);
     public Sound music = new Sound();
     public Sound se = new Sound();
     public UI ui = new UI(this);
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel() {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -52,8 +54,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame() {
-        aSetter.setObject();
         playMusic(0);
+        gameState = playState;
     }
 
     public void startGameThread() {
@@ -94,14 +96,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        if (gameState == playState) player.update();
+        if (gameState == pauseState) {}
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-
         long drawStart = 0;
 
         if (keyH.checkDrawTime) drawStart = System.nanoTime();

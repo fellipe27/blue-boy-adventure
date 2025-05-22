@@ -14,7 +14,6 @@ public class Player extends Entity {
     public final int screenY;
     GamePanel gp;
     KeyHandler keyH;
-    public int hasKey = 0;
     int standCounter = 0;
     boolean moving = false;
     int pixelCounter = 0;
@@ -66,37 +65,7 @@ public class Player extends Entity {
     }
 
     public void pickUpObject(int index) {
-        if (index != 999) {
-            String objName = gp.obj[index].name;
-
-            switch (objName) {
-                case "key" -> {
-                    hasKey++;
-                    gp.playSE(1);
-                    gp.obj[index] = null;
-                    gp.ui.showMessage("You got a key!");
-                }
-                case "door" -> {
-                    if (hasKey > 0) {
-                        hasKey--;
-                        gp.playSE(4);
-                        gp.obj[index] = null;
-                        gp.ui.showMessage("You opened the door!");
-                    } else gp.ui.showMessage("You need a key!");
-                }
-                case "boots" -> {
-                    speed += 2;
-                    gp.playSE(3);
-                    gp.obj[index] = null;
-                    gp.ui.showMessage("Speed up!");
-                }
-                case "chest" -> {
-                    gp.ui.gameFinished = true;
-                    gp.stopMusic();
-                    gp.playSE(2);
-                }
-            }
-        }
+        if (index != 999) {}
     }
 
     public void update() {
